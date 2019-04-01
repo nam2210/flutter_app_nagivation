@@ -28,19 +28,21 @@ class MyApp extends StatelessWidget {
 class FirstRoute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.red[200],
-      child: Center(
-          child: RaisedButton(
-            onPressed: () {
-              print('print here');
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => SecondRoute()),
-              );
-            },
-            child: Text('Open Route'),
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('First Route'),
+      ),
+      body: Container(
+        margin: EdgeInsets.all(16),
+        child: RaisedButton(
+          child: Text('Open route'),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => SecondRoute()),
+            );
+          },
+        ),
       ),
     );
   }
@@ -49,15 +51,16 @@ class FirstRoute extends StatelessWidget {
 class SecondRoute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.blue[200],
-      child: Center(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Second Route"),
+      ),
+      body: Center(
         child: RaisedButton(
           onPressed: () {
-            print('back');
             Navigator.pop(context);
           },
-          child: Text('Back'),
+          child: Text('Go back!'),
         ),
       ),
     );
