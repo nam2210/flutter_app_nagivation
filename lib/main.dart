@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_nagivation/Student.dart';
+import 'package:flutter_app_nagivation/second_route.dart';
 
 void main() => runApp(MyApp());
 
@@ -32,37 +34,28 @@ class FirstRoute extends StatelessWidget {
       appBar: AppBar(
         title: Text('First Route'),
       ),
-      body: Container(
-        margin: EdgeInsets.all(16),
-        child: RaisedButton(
-          child: Text('Open route'),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => SecondRoute()),
-            );
-          },
+      body: Builder(
+        builder: (context) => Container(
+          margin: EdgeInsets.all(16),
+          child: RaisedButton(
+            child: Text('Open route'),
+            onPressed: () {
+              _navigateAndDisplaySelection(context);
+            },
+          ),
         ),
       ),
     );
+  }
+
+  _navigateAndDisplaySelection(BuildContext context) async{
+    final Student result = await Navigator.push(context, MaterialPageRoute(builder: (context) => SecondRoute()));
+
+    //after second route return value,, hide any previous snackbars, and show new snackbars
+    Scaffold.of(context).removeCurrentSnackBar();
+    Scaffold.of(context).showSnackBar(SnackBar(content: Text('${result.toString()}')));
   }
 }
 
-class SecondRoute extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Second Route"),
-      ),
-      body: Center(
-        child: RaisedButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: Text('Go back!'),
-        ),
-      ),
-    );
-  }
-}
+
+
