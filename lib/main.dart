@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_nagivation/Todo.dart';
 
 void main() => runApp(MyApp());
 
@@ -20,49 +21,68 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: FirstRoute(),
+      home: ListRoute(),
     );
   }
 }
 
-class FirstRoute extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('First Route'),
-      ),
-      body: Container(
-        margin: EdgeInsets.all(16),
-        child: RaisedButton(
-          child: Text('Open route'),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => SecondRoute()),
-            );
-          },
-        ),
-      ),
-    );
-  }
-}
 
-class SecondRoute extends StatelessWidget {
+class ListRoute extends StatelessWidget {
+
+  List<Todo> _generateTodo(){
+    return List<Todo>.generate(20, (i) => Todo(
+      'todo $i',
+      'description $i'
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
+    var data = _generateTodo();
     return Scaffold(
       appBar: AppBar(
         title: Text("Second Route"),
       ),
-      body: Center(
-        child: RaisedButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: Text('Go back!'),
-        ),
+      body: ListView.builder(
+          itemCount: data.length,
+          itemBuilder: (context, index){
+            return ListTile(
+              title: Text(
+                '${data[index].title}'
+              ),
+              subtitle: Text(
+                '${data[index].description}'
+              ),
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                    DetailRoute(name: data[index].title, description: data[index].description)));
+              },
+            );
+          })
+    );
+  }
+}
+
+class DetailRoute extends StatelessWidget{
+
+  final String name;
+  final String description;
+
+  DetailRoute({@required this.name, @required this.description});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Title'),
+      ),
+      body: Column(
+        children: <Widget>[
+          Text(this.name),
+          Text(this.description)
+        ],
       ),
     );
   }
+
 }
